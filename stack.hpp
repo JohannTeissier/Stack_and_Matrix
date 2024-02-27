@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <initializer_list>
 
 template <class T>
 class Element
@@ -29,13 +30,16 @@ class Stack
 
         Stack();
         Stack(const Stack<T> &st);
+        Stack(std::initializer_list<T> liste);
         ~Stack();
 
         void push_front(const T &value);
         void push_back(const T &value);
+        void push(const T &value, int index);
         void pop_front();
         void pop_back();
         void erase(int index);
+        void erase(std::initializer_list<int> index);
         void clear();
         void print();
         int size();

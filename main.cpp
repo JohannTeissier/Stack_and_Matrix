@@ -2,18 +2,9 @@
 
 int main()
 {
-    Stack<Stack<float>> matrix{};
-    Stack<float> sub_matrix{};
+    Stack<Stack<int>> st{Stack<int>{{1,2,3}},Stack<int>{{4,5,6}},Stack<int>{{7,8,9}}};
 
-    sub_matrix.push_back(5);
-    sub_matrix.push_back(5);
-    sub_matrix.push_back(5);
-    sub_matrix.push_back(5);
+    st.print();
 
-    matrix.push_back(sub_matrix);
-    matrix.push_back(sub_matrix);
-    matrix.push_back(sub_matrix);
-    matrix.push_back(sub_matrix);
-
-    matrix.print();
+    return 0;
 }

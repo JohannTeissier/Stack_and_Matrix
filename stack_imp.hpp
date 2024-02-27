@@ -54,6 +54,18 @@ inline Stack<T>::Stack(const Stack<T> &st)
 }
 
 template <class T>
+inline Stack<T>::Stack(std::initializer_list<T> liste)
+{
+    this->first = nullptr;
+    this->last = nullptr;
+    this->cardinal = 0;
+    for (const auto& elem : liste) 
+    {
+        this->push_back(elem);
+    }
+}
+
+template <class T>
 inline Stack<T>::~Stack()
 {
     this->clear();
@@ -112,6 +124,75 @@ inline void Stack<T>::push_back(const T &value)
 }
 
 template <class T>
+inline void Stack<T>::push(const T &value, int index)
+{
+    if(index > this->cardinal || index < 0)
+    {
+        std::cout << "ERROR:: index is out of range." << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    if(this->first == nullptr)
+    {
+        this->push_front(value);
+        return;
+    }
+
+    if(index == 0)
+    {
+        this->push_front(value);
+        return;
+    }
+
+    if(index == this->cardinal)
+    {
+        this->push_back(value);
+        return;
+    }
+
+    if(index < this->cardinal - index)
+    {
+        Element<T> *temp = this->first;
+        Element<T>* elem = nullptr;
+
+        for(int i = 0; i < index; i++)
+            temp = temp->getNextElement();
+
+        elem = new Element<T>{value, temp, temp->getPreviousElement()};
+
+        if (elem == nullptr)
+        {
+            std::cerr << "Erreur allocation dynamique de memoire." << std::endl;
+            exit(EXIT_FAILURE);
+        }
+
+        temp->getPreviousElement()->setNextElement(elem);
+        temp->setPreviousElement(elem);
+    }
+    else
+    {
+        Element<T> *temp = this->last;
+        Element<T> *elem = nullptr;
+
+        for(int i = 0; i < this->cardinal - index - 1; i++)
+            temp = temp->getPreviousElement();
+
+        elem = new Element<T>{value, temp, temp->getPreviousElement()};
+
+        if (elem == nullptr)
+        {
+            std::cerr << "Erreur allocation dynamique de memoire." << std::endl;
+            exit(EXIT_FAILURE);
+        }
+
+        temp->getPreviousElement()->setNextElement(elem);
+        temp->setPreviousElement(elem);
+    }
+
+    this->cardinal++;
+}
+
+template <class T>
 inline void Stack<T>::pop_front()
 {
     if(this->first == nullptr)
@@ -151,7 +232,7 @@ inline void Stack<T>::pop_back()
 template <class T>
 inline void Stack<T>::erase(int index)
 {
-    if(index > this->cardinal || index < 0)
+    if(index >= this->cardinal || index < 0)
     {
         std::cout << "ERROR:: index is out of range." << std::endl;
         exit(EXIT_FAILURE);
@@ -208,6 +289,56 @@ inline void Stack<T>::erase(int index)
     }
 
     this->cardinal--;
+}
+
+template <class T>
+inline void Stack<T>::erase(std::initializer_list<int> index)
+{
+    int value, place;
+    Stack<int> tab{index};
+    for(int i = 0; i < tab.size()-1; i++)
+    {
+        if (tab[i] >= this->cardinal || tab[i] < 0)
+        {
+            std::cout << "ERROR:: Index is out of range." << std::endl;
+            exit(EXIT_FAILURE);
+        }
+
+        for(int j = i+1; j < tab.size(); j++)
+        {
+            if(tab[i] == tab[j])
+            {
+                std::cerr << "ERROR:: Index already erase from the stack." << std::endl;
+                exit(EXIT_FAILURE);
+            }
+        }
+    }
+
+    for (int i = 0; i < tab.size() - 1; i++)
+    {
+        value = tab[i];
+        for (int j = i + 1; j < tab.size(); j++)
+        {
+            if (value < tab[j])
+            {
+                value = tab[j];
+                place = j;
+            }
+        }
+
+        if (value != tab[i])
+        {
+            tab.push(tab[i], place);
+            tab.erase(place + 1);
+            tab.erase(i);
+            tab.push(value, i);
+        }
+
+        this->erase(tab[i]);
+    }
+
+    this->erase(tab[tab.size()-1]);
+    tab.clear();
 }
 
 template <class T>
