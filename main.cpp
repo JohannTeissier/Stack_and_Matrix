@@ -1,10 +1,19 @@
-#include "stack_imp.hpp"
+#include "matrix.hpp"
+#include "stack.hpp"
 
 int main()
 {
-    Stack<Stack<int>> st{Stack<int>{{1,2,3}},Stack<int>{{4,5,6}},Stack<int>{{7,8,9}}};
+    Matrix<int> m1{{{1,2,3},{4,5,6},{7,8,9}}};
+    Matrix<int> m2{};
+    m2 = m1;
 
-    st.print();
+    m2.print();
+    m1.print();
+
+    //m2[':'][1] = m1[0];
+    m2[0] = m1[':'][1];
+
+    m2.print();
 
     return 0;
 }
