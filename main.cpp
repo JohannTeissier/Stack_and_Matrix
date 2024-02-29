@@ -3,17 +3,11 @@
 
 int main()
 {
-    Matrix<int> m1{{{1,2,3},{4,5,6},{7,8,9}}};
-    Matrix<int> m2{};
-    m2 = m1;
+    Matrix<char> m1{{{'j','o','h'},{'n','a','d'},{'j','o','h'},{'n','a','d'},{'j','o','h'},{'n','a','d'}}};
+    Matrix<char> m2{{{'H','H','H','H','H','H'}}};
 
-    m2.print();
+    m1[':'][1] = m2[0];
     m1.print();
-
-    //m2[':'][1] = m1[0];
-    m2[0] = m1[':'][1];
-
-    m2.print();
 
     return 0;
 }

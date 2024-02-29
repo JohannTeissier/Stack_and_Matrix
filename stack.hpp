@@ -52,6 +52,12 @@ inline T *Element<T>::getCopyValue()
 }
 
 template <class T>
+inline void Element<T>::setCopyValue(T *value)
+{
+    this->copy_value = value;
+}
+
+template <class T>
 inline Stack<T>::Stack()
 {
     this->first = nullptr;
@@ -455,16 +461,41 @@ template <class T>
 inline void Stack<T>::operator=(const Stack<T> &_st)
 {
     Element<T>* temp = _st.last;
-    this->clear();
+    int i = 0;
+    
+    if(this->cardinal == 0)
+        i = -1;
+    else if(this->cardinal != _st.cardinal)
+    {
+        std::cout << "ERROR:: Dimension are not compatible" << std::endl;
+        return;
+    }
 
     while(temp != nullptr)
     {   
-        if(temp->getCopyValue() == nullptr)
+        if(i == -1)
+        {
             this->push_front(temp->getValue());
+        }
         else
-            this->push_front(*(temp->getCopyValue()));
+        {
+            if(this->first->getCopyValue() != nullptr)
+            {
+                if(temp->getCopyValue() != nullptr)
+                    (*this)[i] = *(temp->getCopyValue());
+                else
+                    (*this)[i] = temp->getValue();
+            }
+            else
+            {
+                this->erase(i);
+                this->push_front(temp->getValue());
+            }
+        }
 
         temp = temp->getPreviousElement();
+        if(i != -1)
+            i++;
     }
 }
 

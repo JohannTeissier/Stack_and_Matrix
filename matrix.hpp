@@ -69,7 +69,7 @@ inline void Matrix<T>::operator=(const Matrix<T> &_mat)
 template <class T>
 inline Stack<T> &Matrix<T>::operator[](int index)
 {
-    return this->element[index];
+    return this->element_line[index];
 }
 
 template <class T>
@@ -92,15 +92,19 @@ inline void Matrix<T>::elemLineToColumn()
         this->element_line.push_back(temp);
         for(int j = 0; j < this->element[i].size(); j++)
         {
-            //temp.push_back(this->element[j][i]);
-            //this->element_column[i][j] = this->element[j][i];
-            this->element_column[i].clone_back(&(this->element[j][i]));
+            //this->element_column[i].clone_back(&(this->element[j][i]));
             this->element_line[i].clone_back(&(this->element[i][j]));
         }
-        //this->element_column.push_back(temp);
-        //temp.clear();
     }
 
-    //this->element_column.print();
-    //this->element_line.print();
+    for(int i = 0; i < this->element[0].size(); i++)
+    {
+        this->element_column.push_back(temp);
+        this->element_line.push_back(temp);
+        for(int j = 0; j < this->element.size(); j++)
+        {
+            this->element_column[i].clone_back(&(this->element[j][i]));
+            //this->element_line[i].clone_back(&(this->element[i][j]));
+        }
+    }
 }

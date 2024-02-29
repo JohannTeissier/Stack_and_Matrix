@@ -17,6 +17,7 @@ class Element
     void setPreviousElement(Element<T>* pback);
     T &getValue();
     T *getCopyValue();
+    void setCopyValue(T *value);
 
     private :
 
