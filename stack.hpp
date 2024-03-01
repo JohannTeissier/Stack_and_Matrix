@@ -467,24 +467,27 @@ inline void Stack<T>::operator=(const Stack<T> &_st)
         i = -1;
     else if(this->cardinal != _st.cardinal)
     {
-        std::cout << "ERROR:: Dimension are not compatible" << std::endl;
-        return;
+        this->clear();
+        i = -1;
     }
 
     while(temp != nullptr)
     {   
         if(i == -1)
         {
-            this->push_front(temp->getValue());
+            if(temp->getCopyValue() == nullptr)
+                this->push_front(temp->getValue());
+            else
+                this->push_front(*(temp->getCopyValue()));
         }
         else
         {
             if(this->first->getCopyValue() != nullptr)
             {
                 if(temp->getCopyValue() != nullptr)
-                    (*this)[i] = *(temp->getCopyValue());
+                    (*this)[this->size()-1-i] = *(temp->getCopyValue());
                 else
-                    (*this)[i] = temp->getValue();
+                    (*this)[this->size()-1-i] = temp->getValue();
             }
             else
             {
